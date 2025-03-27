@@ -1,1 +1,1 @@
-TASK_SPOOLER_CMD = "tsp"
+TASK_SPOOLER_CMD = "ts"

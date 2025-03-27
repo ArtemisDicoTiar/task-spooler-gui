@@ -69,7 +69,7 @@ def list_jobs(socket_name=None):
         "running",
         "queued",
         "allocating",
-        "finished"
+        "finished",
         "skipped",
     ].index(x))
     df["IDOrder"] = df["ID"].apply(lambda x: int(x))

@@ -64,7 +64,7 @@ def list_jobs(socket_name=None):
     )
     data = parse_tasklist_to_json(output)
     df = pd.DataFrame(data=data)
-    df["Time_ms"] = df["Time"].str.split("/").str[0].astype(float).fillna("-")
+    df["Time_ms"] = df["Time"]
     df["StateOrder"] = df["State"].apply(lambda x: [
         "running",
         "queued",

@@ -68,7 +68,7 @@ def list_jobs(socket_name=None):
     df["StateOrder"] = df["State"].apply(lambda x: [
         "running",
         "queued",
-        "allocated",
+        "allocating",
         "finished"
         "skipped",
     ].index(x))

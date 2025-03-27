@@ -1,4 +1,4 @@
-columns = ["ID", "State", "Output", "E-Level", "Time", "Command"];
+columns = ["ID", "State", "Output", "E-Level", "GPUs", "Time", "Command"];
 let table = null;
 let timeouts = [];
 let intervals = [];
@@ -273,11 +273,11 @@ function loadTable() {
       },
     },
     {
-      title: "Time (ms)",
-      data: "Time_ms",
+      title: "Time",
+      data: "Time",
       render: function (data, type, row) {
         if (data) {
-          return parseFloat(data).toLocaleString().replace("NaN", "-");
+          return data;
         } else {
           return data;
         }

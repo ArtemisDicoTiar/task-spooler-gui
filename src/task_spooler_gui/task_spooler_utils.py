@@ -6,10 +6,8 @@ import pandas as pd
 from .config import TASK_SPOOLER_CMD
 
 
-
 def parse_tasklist_to_json(input_str):
     lines = input_str.strip().splitlines()
-    print(lines)
 
     # Extract headers and data
     header = lines[0]
@@ -28,16 +26,16 @@ def parse_tasklist_to_json(input_str):
     for line in data:
         parsed_data = {}
         for i, col in enumerate(columns):
-            if i == len(columns)-1:
+            if i == len(columns) - 1:
                 value = line[offsets[i]:].rstrip()
             else:
-                value = line[offsets[i]:offsets[i+1]].rstrip()
+                value = line[offsets[i]:offsets[i + 1]].rstrip()
             parsed_data[col] = value
         parsed_data["ID"] = int(parsed_data["ID"])
         all_parsed_data.append(parsed_data)
 
     for d in all_parsed_data:
-        if d["Time"].startswith(" "):
+        if d["Time"].startswith(" ") or d["Time"] == "":
             d["Command"] = d["Time"].strip()
             d["Time"] = None
         else:
@@ -83,7 +81,7 @@ def remove(job_id, socket_name):
     Remove a task-spooler job.
     """
     assert isinstance(job_id, int) or (
-        isinstance(job_id, str) and job_id.isdigit()
+            isinstance(job_id, str) and job_id.isdigit()
     ), job_id
     env = get_env(socket_name)
     proc = subprocess.run(
@@ -102,7 +100,7 @@ def kill(job_id, socket_name):
     Kill a running task-spooler job.
     """
     assert isinstance(job_id, int) or (
-        isinstance(job_id, str) and job_id.isdigit()
+            isinstance(job_id, str) and job_id.isdigit()
     ), job_id
     env = get_env(socket_name)
     proc = subprocess.run(
@@ -121,7 +119,7 @@ def get_socket_names():
     Get the names of all sockets in the /tmp directory.
     """
     sockets = glob.glob("/tmp/socket.*")
-    socket_names = [os.path.basename(s)[len("socket.") :] for s in sockets]
+    socket_names = [os.path.basename(s)[len("socket."):] for s in sockets]
     return socket_names
 
 

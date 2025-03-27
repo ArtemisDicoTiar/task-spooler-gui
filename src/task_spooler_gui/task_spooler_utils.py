@@ -35,10 +35,12 @@ def parse_tasklist_to_json(input_str):
         all_parsed_data.append(parsed_data)
 
     for d in all_parsed_data:
-        if d["Time"].startswith(" ") or d["Time"] == "":
+        if d["Time"].startswith("  "):
             d["Command"] = d["Time"].strip()
             d["Time"] = None
         else:
+            if d["Time"].startswith(" "):
+                d["Time"] = d["Time"][1:]
             time, _, command = d["Time"].partition(" ")
             d["Time"] = time
             d["Command"] = command

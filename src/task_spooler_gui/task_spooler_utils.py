@@ -46,11 +46,23 @@ def parse_tasklist_to_json(input_str):
             m = re.match(r"\[([^]]+)\](.*)", d["Command"])
             if m:
                 d["Label"], d["Command"] = m.groups()
+
+            ts_id = d["ID"]
+            d["Command"] = get_command_output(ts_id, socket_name="default")
+
         else:
             d["Label"] = None
 
     # Convert to JSON
     return all_parsed_data
+
+
+def get_command_output(job_id, socket_name):
+    env = get_env(socket_name)
+    output = subprocess.check_output(
+        f"{TASK_SPOOLER_CMD} -F {job_id}", env=env, shell=True, encoding="utf-8"
+    )
+    return output
 
 
 def list_jobs(socket_name=None):

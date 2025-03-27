@@ -9,14 +9,16 @@ from .config import TASK_SPOOLER_CMD
 
 def parse_tasklist_to_json(input_str):
     lines = input_str.strip().splitlines()
+    print(lines)
 
     # Extract headers and data
     header = lines[0]
     data = lines[1:]
 
     # Identify column offsets by the position of each header
+    # ID   State      Output               E-Level  Time   GPUs  Command [run=2/32]
     columns = [
-        "ID", "State", "Output", "E-Level", "Times",
+        "ID", "State", "Output", "E-Level", "Time", "GPUs", "Command"
     ]
 
     offsets = [header.find(col) for col in columns]
@@ -35,12 +37,12 @@ def parse_tasklist_to_json(input_str):
         all_parsed_data.append(parsed_data)
 
     for d in all_parsed_data:
-        if d["Times"].startswith(" "):
+        if d["Time"].startswith(" "):
             d["Command"] = d["Times"].strip()
-            d["Times"] = None
+            d["Time"] = None
         else:
-            time, _, command = d["Times"].partition(" ")
-            d["Times"] = time
+            time, _, command = d["Time"].partition(" ")
+            d["Time"] = time
             d["Command"] = command
         if d["Command"].startswith("["):
             # This is a label. Extract it.
@@ -64,7 +66,7 @@ def list_jobs(socket_name=None):
     )
     data = parse_tasklist_to_json(output)
     df = pd.DataFrame(data=data)
-    df["Time_ms"] = df["Times"].str.split("/").str[0].astype(float).fillna("-")
+    df["Time_ms"] = df["Time"].str.split("/").str[0].astype(float).fillna("-")
     df["StateOrder"] = df["State"].apply(lambda x: [
         "running",
         "queued",

@@ -36,14 +36,11 @@ def parse_tasklist_to_json(input_str):
 
     for d in all_parsed_data:
         if d["Time"].startswith("  "):
-            d["Command"] = d["Time"].strip()
             d["Time"] = None
         else:
             if d["Time"].startswith(" "):
                 d["Time"] = d["Time"][1:]
-            time, _, command = d["Time"].partition(" ")
-            d["Time"] = time
-            d["Command"] = command
+
         if d["Command"].startswith("["):
             # This is a label. Extract it.
             m = re.match(r"\[([^]]+)\](.*)", d["Command"])

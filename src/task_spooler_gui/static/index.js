@@ -293,7 +293,7 @@ function loadTable() {
     processing: true,
     ajax: { url: url },
     info: true,
-    lengthMenu: [5, 10, 20, -1],
+    lengthMenu: [10, 20, -1],
     columns,
   });
   table.on("xhr.dt", function () {

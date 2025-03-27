@@ -261,6 +261,10 @@ function loadTable() {
       title: "Label",
       data: "Label",
     },
+      {
+      title: "GPUs",
+      data: "GPUs",
+    },
     {
       title: "Command",
       data: "Command",
